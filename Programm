@@ -1,0 +1,137 @@
+class Ereignisse
+{
+  /* namen fuer objekte, die im folgenden gebraucht werden */
+  Fenster fenster;
+  Blatt blatt;
+  Ohr ohr;
+  Uhr uhr;
+  Linie linie;
+  Linie kreuz;
+  Linie ls;
+  Linie rs;
+  Linie ow;
+  Linie uw;
+  Kreis quadrat;
+  
+  
+  
+  /* namen fuer dezimalzahlen, die im folgenden gebraucht werden */
+  float pixel, x, y, a, b, c, d ;
+  float m, k; 
+  float radius,quawink;
+  float i,t;
+  float anzahl;
+  double farbe;
+  
+  void ablauf()
+  {
+    /* anzahl pixel pro einheit */
+    pixel = 50;
+    
+    
+    
+    
+    /* erzeuge ein fenster und ein blatt */
+    fenster = new Fenster("Falafel im Yufka 5");
+    blatt = new Blatt(16, 16, pixel);
+    
+    /* fuege das blatt zum fenster hinzu */
+    fenster.inhalt(blatt);
+    
+    
+    
+    /* erzeuge eine linie */
+    
+    farbe=Math.random();
+    ls = new Linie(farbe,0.2);       /*l= links s= senkrecht  r = rechts ow =obenwaagrecht...*/
+    ls.ersterPunkt(-3,8);
+    ls.naechsterPunkt(-3,-8);
+    
+    farbe=Math.random();
+    rs = new Linie(farbe,0.2);
+    rs.ersterPunkt(3,8);
+    rs.naechsterPunkt(3,-8);
+    
+    farbe=Math.random();
+    ow = new Linie(farbe,0.2);
+    ow.ersterPunkt(-8,3);
+    ow.naechsterPunkt(8,3);
+    
+    farbe=Math.random();
+    uw = new Linie(farbe,0.2);
+    uw.ersterPunkt(-8,-3);
+    uw.naechsterPunkt(8,-3);
+    
+    blatt.fuelleBlatt(ls);
+    blatt.fuelleBlatt(rs);
+    blatt.fuelleBlatt(ow);
+    blatt.fuelleBlatt(uw);
+    
+    
+    /* erzeuge ein ohr */
+    ohr = new Ohr();                
+    ohr.belausche(blatt);
+    anzahl = 0;
+    quadrat = new Kreis();     /*quadrat und anzahl könnten wahrscheinlich auch weiter runter*/
+    radius=2;
+    /*naechste Punkte */
+    for (; 0 < 1 ;)           /*keine Ahnung was ich hier gemacht hab*/
+    
+    {
+      ohr.warteAufEreignis();
+      i = ohr.x();
+      t = ohr.y();
+      
+      if (i<-3 && +3<t)                   {x=(float)-5.5; y=(float)5.5;}          /* für die Zentrierung der Formen in die Mitte der Felder*/
+      if (-3<i && i<+3 && t>+3)           {x=0; y=(float)5.5;}
+      if (i>+3 && t>+3)                   {x=(float)5.5; y=(float)5.5;}
+      if (-3>i && +3>t && t>-3)           {x=(float)-5.5; y=0;}
+      if (-3<i && i<+3 && t>-3 && t<+3)   {x=0; y=0;}
+      if (i>+3 && t>-3 && t<+3)           {x=(float)5.5; y=0;}
+      if (-3>i && t<-3)                   {x=(float)-5.5; y=(float)-5.5;}
+      if (-3<i && i<+3 && t<(-3))         {x=0; y=(float)-5.5;}
+      if (+3<i && t<-3)                   {x=(float)5.5; y=(float)-5.5;}
+      
+      
+      if (anzahl==0)    // damit immer abwechselnd Kreis oder Kreuz gezeichnet wird
+      {
+        
+        farbe=Math.random();                            /*Zeichnet das Kreuz*/
+        kreuz.naechsterPunkt(x-2,y-2);
+        kreuz.naechsterPunkt(x,y);
+        kreuz.naechsterPunkt(x+2,y-2);
+        kreuz.naechsterPunkt(x-2,y+2);
+        kreuz.naechsterPunkt(x,y);
+        blatt.fuelleBlatt(kreuz);
+        anzahl=anzahl+1;
+      } // end of if
+      
+      
+      else
+      {
+        
+        farbe=Math.random();            /*für den Kreis mit zufälliger Farbe */ 
+        quadrat = new Kreis();
+        radius=2;
+        
+        linie = new Linie (farbe, 0.2);
+        /* erzeuge kreislinie */
+        c = quadrat.x(0, radius);
+        d = quadrat.y(0, radius);
+        linie.ersterPunkt(x+c, y+d);
+        
+        for (quawink = 0; quawink < 360; quawink = quawink + 1)
+        {
+          a = quadrat.x(quawink, radius);
+          b = quadrat.y(quawink, radius);
+          linie.naechsterPunkt(a, b);
+        }
+        linie.schliessen();
+        anzahl=anzahl-1;
+        blatt.fuelleBlatt(linie);
+      } // end of else
+      blatt.wendeBlatt();
+    }
+  } 
+}
+        
